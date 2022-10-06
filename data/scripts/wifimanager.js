@@ -2,8 +2,9 @@
 
 const WifiManager = (() => {
     function loadFormData() {
-        const { ssid, password, ip, gateway } = document.forms.form;
         const formStr = localStorage.getItem('@ESP:form');
+        if (!formStr) return;
+        const { ssid, password, ip, gateway } = document.forms.form;
         const form = JSON.parse(formStr);
 
         ip.value = form.ip;
