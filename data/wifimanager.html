@@ -1,33 +1,44 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>ESP Wi-Fi Manager</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" href="data:,">
-  <link rel="stylesheet" type="text/css" href="style.css">
-</head>
-<body>
-  <div class="topnav">
-    <h1>ESP Wi-Fi Configuração inicial</h1>
-  </div>
-  <div class="content">
-    <div class="card-grid">
-      <div class="card">
-        <form action="/" method="POST">
-          <p>
-            <label for="ssid">SSID</label>
-            <input type="text" id ="ssid" name="ssid"><br>
-            <label for="pass">Senha</label>
-            <input type="text" id ="pass" name="pass"><br>
-            <label for="ip">Endereço IP</label>
-            <input type="text" id ="ip" name="ip" value="192.168.1.200"><br>
-            <label for="gateway">Endereço Gateway</label>
-            <input type="text" id ="gateway" name="gateway" value="192.168.1.1"><br>
-            <input type ="submit" value ="Submit">
-          </p>
-        </form>
-      </div>
-    </div>
-  </div>
-</body>
+    <head>
+        <title>ESP Wi-Fi Manager</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="./styles/geral.css">
+        <link rel="stylesheet" href="./styles/wifimanager.css">
+    </head>
+
+    <body>
+        <header class="navbar">
+            <h1>ESP Wi-Fi Configuração inicial</h1>
+        </header>
+
+        <main>
+            <form id="form" name="form" action="/" method="POST">
+                <label>
+                    SSID
+                    <input name="ssid" required>
+                </label>
+
+                <label>
+                    Senha
+                    <input name="password" type="password" required>
+                </label>
+
+                <label>
+                    Endereço IP
+                    <input name="ip" value="192.168.1.200" required>
+                </label>
+
+                <label>
+                    Endereço Gateway
+                    <input name="gateway" value="192.168.1.1" required>
+                </label>
+
+                <button id="btn-submit" type="submit">Salvar</button>
+            </form>
+        </main>
+
+        <script src="./scripts/wifimanager.js"></script>
+    </body>
 </html>
