@@ -22,12 +22,10 @@ const WifiManager = (() => {
         });
     }
 
-
     function init() {
         loadFormData();
         events();
     }
-
 
     return {
         init
