@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>ESP Wi-Fi Manager</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <link rel="stylesheet" href="./styles/wifimanager.css">
+        <title>ESP Wi-Fi Manager</title>
     </head>
 
     <body>
@@ -34,10 +35,13 @@
                     <input name="gateway" value="192.168.1.1" required>
                 </label>
 
-                <button id="btn-submit" type="submit">Salvar</button>
+                <div class="controls-wrapper">
+                    <a href="/" class="button secondary">voltar</a>
+                    <button class="button primary" id="btn-submit" type="submit">Salvar</button>
+                </div>
             </form>
         </main>
 
-        <script src="./scripts/wifimanager.js"></script>
+        <script type="module" src="./src/scripts/wifimanager.js"></script>
     </body>
 </html>

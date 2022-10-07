@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>ESP WEB SERVER</title>
+
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+            integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    </head>
+
+    <body>
+        <header class="header">
+            <div class="navbar">
+                <h1>ESP WEB SERVER</h1>
+            </div>
+
+            <button id="menu-open">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <nav id="menu">
+                <ul>
+                    <li>
+                        <button id="menu-close">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </li>
+
+                    <li><a href="/">HOME</a></li>
+                    <li><a href="/wifimanager.html">CONFIGURAÇÕES</a></li>
+                    <li><a href="#">CURSOS</a></li>
+                    <li><a href="#">ARTIGOS</a></li>
+                    <li><a href="#">CONTATO</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <div id="controls" class="controls">
+            <div data-pin="pin01" class="control">
+                <button class="control-trigger">
+                    <i class="fas fa-ellipsis-v"></i>
+                </button>
+
+                <div class="control-title">
+                    <i class="fas fa-shower"></i> Bomba d'àgua
+                </div>
+
+                <div class="control-wrapper">
+                    <label class="switch">
+                        <input type="checkbox">
+                        <span class="slider"></span>
+                    </label>
+
+                    <div class="control-state-wrapper">
+                        <span>status:</span>
+                        <div class="control-state">%STATE%</div>
+                    </div>
+                </div>
+            </div>
+
+            <div data-pin="pin02" class="control">
+                <button class="control-trigger">
+                    <i class="fas fa-ellipsis-v"></i>
+                </button>
+
+                <div class="control-title">
+                    <i class="fas fa-mug-hot"></i> Setor - Café Novo
+                </div>
+
+                <div class="control-wrapper">
+                    <label class="switch">
+                        <input type="checkbox">
+                        <span class="slider"></span>
+                    </label>
+
+                    <div class="control-state-wrapper">
+                        <span>status:</span>
+                        <div class="control-state">%STATE%</div>
+                    </div>
+                </div>
+            </div>
+
+            <div data-pin="pin03" class="control">
+                <button class="control-trigger">
+                    <i class="fas fa-ellipsis-v"></i>
+                </button>
+
+                <div class="control-title">
+                    <i class="fas fa-mountain"></i> Setor - Morro
+                </div>
+
+                <div class="control-wrapper">
+                    <label class="switch">
+                        <input type="checkbox">
+                        <span class="slider"></span>
+                    </label>
+
+                    <div class="control-state-wrapper">
+                        <span>status:</span>
+                        <div class="control-state">%STATE%</div>
+                    </div>
+                </div>
+            </div>
+
+            <div data-pin="pin04" class="control">
+                <button class="control-trigger">
+                    <i class="fas fa-ellipsis-v"></i>
+                </button>
+
+                <div class="control-title">
+                    <i class="fab fa-sticker-mule"></i> Setor - Aderne
+                </div>
+
+                <div class="control-wrapper">
+                    <label class="switch">
+                        <input type="checkbox">
+                        <span class="slider"></span>
+                    </label>
+
+                    <div class="control-state-wrapper">
+                        <span>status:</span>
+                        <div class="control-state">%STATE%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script> </script>
+        <script type="module" src="./src/scripts/index.js"></script>
+    </body>
+</html>

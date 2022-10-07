@@ -1,4 +1,5 @@
-"strict mode"
+import '../styles/index.scss';
+
 
 const Index = (() => {
     function events() {

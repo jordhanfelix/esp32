@@ -1,4 +1,5 @@
-"strict mode"
+import '../styles/wifimanager.scss';
+
 
 const WifiManager = (() => {
     function loadFormData() {
