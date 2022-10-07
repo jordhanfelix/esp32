@@ -1,3 +1,6 @@
+@import './geral.css';
+
+
 main {
     padding: 0 1rem 2rem;
 }
@@ -29,8 +32,8 @@ input {
 }
 
 input:focus {
-    outline: 1px solid #1282A2;
-    border: 1px solid #1282A2;
+    outline: 1px solid var(--color-secondary);
+    border: 1px solid var(--color-secondary);
 }
 
 #btn-submit {
@@ -39,7 +42,7 @@ input:focus {
     padding: 15px;
     border: none;
     border-radius: 4px;
-    background-color: #034078;
+    background-color: var(--color-primary);
     color: #FEFCFB;
     font-size: 1rem;
     cursor: pointer;
@@ -47,5 +50,5 @@ input:focus {
 }
 
 #btn-submit:hover {
-    background-color: #1282A2;
+    background-color: var(--color-secondary);
 }
