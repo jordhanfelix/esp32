@@ -9,8 +9,23 @@
     </head>
 
     <body>
-        <header class="navbar">
-            <h1>ESP Wi-Fi Configuração inicial</h1>
+        <header class="header">
+            <div class="navbar">
+                <h1>Configurações de rede</h1>
+            </div>
+
+            <button id="menu-open">
+                <img src="./menu.png" alt="OPEN MENU">
+            </button>
+
+            <nav id="menu">
+                <ul>
+                    <li><button id="menu-close"><img src="./close.png" alt="CLOSE MENU"></button></li>
+                    <li><a href="/">INÍCIO</a></li>
+                    <li><a href="/pins.html">BOTÕES</a></li>
+                    <li><a href="/network.html">REDE</a></li>
+                </ul>
+            </nav>
         </header>
 
         <main>
@@ -42,6 +57,6 @@
             </form>
         </main>
 
-        <script type="module" src="./src/scripts/wifimanager.js"></script>
+        <script type="module" src="./src/scripts/network.js"></script>
     </body>
 </html>

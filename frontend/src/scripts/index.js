@@ -44,6 +44,10 @@ const Index = (() => {
     }
 
     function init() {
+        if (!localStorage.getItem('@ESP:initialided')) {
+            location.replace('/network.html');
+        }
+
         events();
     }
 

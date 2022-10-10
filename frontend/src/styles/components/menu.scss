@@ -15,6 +15,14 @@
         @media (max-width: 767px) {
             right: 1rem;
         }
+
+        img {
+            transition: transform .2s;
+        }
+
+        &:hover > img {
+            transform: scale(1.1);
+        }
     }
 
     #menu-open {
@@ -31,13 +39,17 @@
         top: 0;
         right: -101%;
         height: 100vh;
-        width: 100vw;
+        width: 40vw;
         display: flex;
         align-items: center;
         justify-content: center;
         background-color: var(--color-dark);
         padding: 3rem 1rem;
-        transition: right .6s;
+        transition: right .6s ease-in-out;
+
+        @media (max-width: 767px) {
+            width: 100vw;
+        }
 
         &.open {
             right: 0;

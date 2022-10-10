@@ -6,7 +6,7 @@ export default defineConfig({
         rollupOptions: {
             input: {
                 index: resolve(__dirname, 'index.html'),
-                wifimanager: resolve(__dirname, 'wifimanager.html')
+                network: resolve(__dirname, 'network.html')
             }
         }
     }
