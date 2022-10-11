@@ -1,4 +1,7 @@
-.navbar {
+@import './menu.scss';
+
+
+#header {
     padding: 1rem;
     background-color: var(--color-dark);
     color: white;

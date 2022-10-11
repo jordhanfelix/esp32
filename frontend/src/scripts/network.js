@@ -1,14 +1,10 @@
-import { createServer } from "miragejs";
 import '../styles/network.scss';
+import { Menu } from './components/menu';
 import { ROUTES } from './routes';
+import { startServer } from './server';
 
-if (import.meta.env.MODE === 'development') {
-    createServer({
-        routes() {
-            this.post("/config", () => true)
-        },
-    });
-}
+
+startServer();
 
 const WifiManager = (() => {
     function loadFormData() {
@@ -30,38 +26,36 @@ const WifiManager = (() => {
         const queryString = new URLSearchParams(formData);
 
         fetch(`${ROUTES.SAVE_CONFIG}?${queryString.toString()}`, { method: 'POST' })
-            .then(() => {
-                localStorage.setItem('@ESP:form', JSON.stringify(form));
-                localStorage.setItem('@ESP:initialided', true);
+            .then(res => res.json())
+            .then(data => {
+                if (data) {
+                    localStorage.setItem('@ESP:form', JSON.stringify(form));
+
+                    if (!localStorage.getItem('@ESP:initialized')) {
+                        localStorage.setItem('@ESP:initialized', true);
+                        location.assign(ROUTES.HOME);
+                    }
+                }
             });
     }
 
     function events() {
-        const menu = document.querySelector('#menu');
-
-        document.querySelector('#menu-open').addEventListener('click', () => {
-            menu.classList.add('open');
-        });
-
-        document.querySelector('#menu-close').addEventListener('click', () => {
-            menu.classList.remove('open');
-        });
-
         document.forms.form.addEventListener('submit', handleFormSubmit);
     }
 
     function firstInit() {
-        document.querySelector('.button.secondary').remove();
-        document.querySelector('#menu-open').remove();
+        document.querySelector('.button.secondary').style.display = 'none';
+        document.querySelector('#menu-open').style.display = 'none';
         document.querySelector('#btn-submit').style.width = '100%';
     }
 
     function init() {
-        if (!localStorage.getItem('@ESP:initialided')) {
+        if (!localStorage.getItem('@ESP:initialized')) {
             firstInit();
         }
 
         loadFormData();
+        Menu.init();
         events();
     }
 

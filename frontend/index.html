@@ -9,27 +9,12 @@
     </head>
 
     <body>
-        <header class="header">
-            <div class="navbar">
-                <h1>ESP WEB SERVER</h1>
-            </div>
-
-            <button id="menu-open">
-                <img src="./menu.png" alt="OPEN MENU">
-            </button>
-
-            <nav id="menu">
-                <ul>
-                    <li><button id="menu-close"><img src="./close.png" alt="CLOSE MENU"></button></li>
-                    <li><a href="/">INÍCIO</a></li>
-                    <li><a href="/pins.html">BOTÕES</a></li>
-                    <li><a href="/network.html">REDE</a></li>
-                </ul>
-            </nav>
+        <header id="header">
+            <h1>Início</h1>
         </header>
 
         <div id="controls" class="controls">
-            <div data-pin="pin01" class="control">
+            <div data-pin="01" class="control">
                 <div class="control-title">
                     <i class="fas fa-shower"></i> Bomba d'àgua
                 </div>
@@ -42,7 +27,7 @@
                 </div>
             </div>
 
-            <div data-pin="pin02" class="control">
+            <div data-pin="02" class="control">
                 <div class="control-title">
                     <i class="fas fa-mug-hot"></i> Setor - Café Novo
                 </div>
@@ -55,7 +40,7 @@
                 </div>
             </div>
 
-            <div data-pin="pin03" class="control">
+            <div data-pin="03" class="control">
                 <div class="control-title">
                     <i class="fas fa-mountain"></i> Setor - Morro
                 </div>
@@ -68,7 +53,7 @@
                 </div>
             </div>
 
-            <div data-pin="pin04" class="control">
+            <div data-pin="04" class="control">
                 <div class="control-title">
                     <i class="fab fa-sticker-mule"></i> Setor - Aderne
                 </div>
@@ -82,7 +67,6 @@
             </div>
         </div>
 
-        <script> </script>
         <script type="module" src="./src/scripts/index.js"></script>
     </body>
 </html>
