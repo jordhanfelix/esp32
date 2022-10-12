@@ -1,0 +1,46 @@
+@import './geral.scss';
+@import './components/card.scss';
+@import './components/form.scss';
+
+
+.add-wrapper {
+    padding: 0 16px;
+
+    .add-container {
+        width: 100%;
+        max-width: 1084px;
+        margin: 5rem auto 0;
+        padding-bottom: 1rem;
+        text-align: right;
+        border-bottom: 1px solid #ccc;
+
+        @media (max-width: 767px) {
+            margin-top: 3rem;
+        }
+
+        #btn-add {}
+    }
+}
+
+#times {
+    .time-container {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    button {
+        border: none;
+        color: var(--color-primary);
+        background-color: transparent;
+        font-size: .9rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: background-color .2s;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}

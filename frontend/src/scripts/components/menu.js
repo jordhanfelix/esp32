@@ -1,5 +1,3 @@
-"strict mode"
-
 export const Menu = (() => {
     function insertMenu() {
         const container = document.querySelector('#header');
@@ -33,6 +31,8 @@ export const Menu = (() => {
     }
 
     function init() {
+        if (!localStorage.getItem('@ESP:initialized')) return;
+
         insertMenu();
         events();
     }

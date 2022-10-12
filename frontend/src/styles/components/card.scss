@@ -1,0 +1,92 @@
+@import './switch.scss';
+
+
+.controls {
+    width: 100%;
+    max-width: 1116px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    color: var(--color-primary);
+    margin: 4rem auto;
+    padding: 1rem;
+
+    @media (max-width: 767px) {
+        margin: 2rem auto;
+    }
+
+    .control {
+        position: relative;
+        width: 100%;
+        max-width: 350px;
+        border: 1px solid #ccc;
+        padding: 1rem;
+        border-radius: 4px;
+
+        &-menu {
+            position: absolute;
+            top: .4rem;
+            right: .4rem;
+            height: 23px;
+            width: 23px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            color: var(--color-primary);
+            background-color: transparent;
+            cursor: pointer;
+            transition: .2s;
+
+            &:hover {
+                background-color: var(--color-primary);
+
+                path {
+                    stroke: #fff;
+                }
+            }
+
+            path {
+                transition: .2s;
+            }
+        }
+
+        &-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        &-separator {
+            height: 1px;
+            margin: 1rem 0;
+            background-color: #ccc;
+        }
+
+        &.config > .control-content {
+            min-height: 72px;
+        }
+
+        .control-content {
+            display: flex;
+
+            .left {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+
+                .control-pin {
+                    margin-bottom: 1rem;
+                    font-weight: 700;
+                }
+            }
+
+            .control-times {
+                li:nth-child(even) {
+                    color: var(--color-secondary);
+                }
+            }
+        }
+    }
+}

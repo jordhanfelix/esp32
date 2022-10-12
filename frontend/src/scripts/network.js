@@ -8,7 +8,7 @@ startServer();
 
 const WifiManager = (() => {
     function loadFormData() {
-        const formStr = localStorage.getItem('@ESP:form');
+        const formStr = localStorage.getItem('@ESP:network');
         if (!formStr) return;
         const { ssid, password, ip, gateway } = document.forms.form;
         const form = JSON.parse(formStr);
@@ -29,7 +29,9 @@ const WifiManager = (() => {
             .then(res => res.json())
             .then(data => {
                 if (data) {
-                    localStorage.setItem('@ESP:form', JSON.stringify(form));
+                    localStorage.setItem('@ESP:network', JSON.stringify(form));
+
+                    alert('Salvo!')
 
                     if (!localStorage.getItem('@ESP:initialized')) {
                         localStorage.setItem('@ESP:initialized', true);
@@ -44,16 +46,14 @@ const WifiManager = (() => {
     }
 
     function firstInit() {
-        document.querySelector('.button.secondary').style.display = 'none';
-        document.querySelector('#menu-open').style.display = 'none';
-        document.querySelector('#btn-submit').style.width = '100%';
+        if (!localStorage.getItem('@ESP:initialized')) {
+            document.querySelector('.button.secondary').style.display = 'none';
+            document.querySelector('#btn-submit').style.width = '100%';
+        }
     }
 
     function init() {
-        if (!localStorage.getItem('@ESP:initialized')) {
-            firstInit();
-        }
-
+        firstInit();
         loadFormData();
         Menu.init();
         events();
