@@ -6,7 +6,8 @@ export default defineConfig({
         rollupOptions: {
             input: {
                 index: resolve(__dirname, 'index.html'),
-                network: resolve(__dirname, 'network.html')
+                network: resolve(__dirname, 'network.html'),
+                controls: resolve(__dirname, 'controls.html'),
             }
         }
     }
