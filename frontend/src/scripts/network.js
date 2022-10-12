@@ -21,11 +21,11 @@ const WifiManager = (() => {
 
     function handleFormSubmit(event) {
         event.preventDefault();
-        const formData = new FormData(event.target);
+        const formData = new FormData(event.currentTarget);
         const form = Object.fromEntries(formData);
         const queryString = new URLSearchParams(formData);
 
-        fetch(`${ROUTES.SAVE_CONFIG}?${queryString.toString()}`, { method: 'POST' })
+        fetch(`${ROUTES.SAVE_NETWORK}?${queryString.toString()}`, { method: 'POST' })
             .then(res => res.json())
             .then(data => {
                 if (data) {
