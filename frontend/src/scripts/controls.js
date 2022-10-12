@@ -72,7 +72,7 @@ const Controls = (() => {
 
                             <label class="switch small">
                                 <span class="label">Habilitado</span>
-                                <input name="active" type="checkbox" checked="${active}">
+                                <input name="active" id="switch-pin${pin}" type="checkbox">
                                 <span class="slider"></span>
                             </label>
                         </div>
@@ -83,7 +83,10 @@ const Controls = (() => {
                     </div>
                 </div>
             `);
+
+            document.querySelector(`#switch-pin${pin}`).checked = active;
         });
+
     }
 
     function openModal(pin) {
