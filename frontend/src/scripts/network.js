@@ -21,7 +21,7 @@ const WifiManager = (() => {
 
     function handleFormSubmit(event) {
         event.preventDefault();
-        const formData = new FormData(event.target);
+        const formData = new FormData(event.currentTarget);
         const form = Object.fromEntries(formData);
         const queryString = new URLSearchParams(formData);
 
