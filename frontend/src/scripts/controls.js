@@ -40,17 +40,56 @@ const Controls = (() => {
         else controls.push(data);
 
         localStorage.setItem('@ESP:controls', JSON.stringify(controls));
-        listControls();
-        Modal.close();
+
+        sendControl(pin, data => {
+            if (data) {
+                listControls();
+                Modal.close();
+            }
+            else {
+                alert('Falha ao salvar controle.');
+            }
+        });
+    }
+
+    function sendControl(pin, callback) {
+        const controls = JSON.parse(localStorage.getItem('@ESP:controls'));
+        const control = controls.find(f => f.pin === pin);
+        const link = `${ROUTES.SAVE_PIN}-${pin}-${control.active ? 'on' : 'off'}?${generateQueryString(control)}`;
+
+        fetch(link, { method: 'POST' })
+            .then(res => res.json())
+            .then(callback)
+            .catch(err => {
+                alert('Falha ao salvar controle.');
+                console.error(err);
+            });
+    }
+
+    function generateQueryString({ name, pin, active, times }) {
+        const queryString = new URLSearchParams({
+            name: name,
+            pin: pin,
+            active: active ? 'on' : 'off',
+            timelist: times
+                .reduce((acc, cur) => acc += '_' + cur.join(''), '')
+                .replace(/:/g, '')
+                .slice(1)
+        });
+
+        return queryString.toString();
     }
 
     function listControls() {
-        const constrols = JSON.parse(localStorage.getItem('@ESP:controls'));
+        const controls = JSON.parse(localStorage.getItem('@ESP:controls'));
         const container = document.querySelector('#controls');
 
         container.innerHTML = '';
-        constrols.forEach(({ name, pin, active, times }) => {
-            container.insertAdjacentHTML('beforeend', /*html*/`
+
+        controls
+            .sort((a, b) => (a.pin > b.pin) ? 1 : -1)
+            .forEach(({ name, pin, active, times }) => {
+                container.insertAdjacentHTML('beforeend', /*html*/`
                 <div class="control config">
                     <button class="control-menu" data-pin="${pin}">
                         <svg width="5" height="17" viewBox="0 0 5 17" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -72,7 +111,7 @@ const Controls = (() => {
 
                             <label class="switch small">
                                 <span class="label">Habilitado</span>
-                                <input name="active" id="switch-pin${pin}" type="checkbox">
+                                <input name="active" id="switch-pin${pin}" type="checkbox" data-pin="${pin}">
                                 <span class="slider"></span>
                             </label>
                         </div>
@@ -84,15 +123,16 @@ const Controls = (() => {
                 </div>
             `);
 
-            document.querySelector(`#switch-pin${pin}`).checked = active;
-        });
+                document.querySelector(`#switch-pin${pin}`).checked = active;
+            });
 
+        addSwitchListener();
     }
 
     function openModal(pin) {
         if (pin) {
-            const constrols = JSON.parse(localStorage.getItem('@ESP:controls'));
-            const control = constrols.find(control => control.pin === pin);
+            const controls = JSON.parse(localStorage.getItem('@ESP:controls'));
+            const control = controls.find(control => control.pin === pin);
 
             if (control) {
                 const { form } = document.forms;
@@ -146,6 +186,30 @@ const Controls = (() => {
                 </div>
             </label>
         `;
+    }
+
+    function addSwitchListener() {
+        document.querySelectorAll('#controls input[data-pin]')
+            .forEach(input => {
+                input.addEventListener('change', event => {
+                    const { pin } = input.dataset;
+                    const controls = JSON.parse(localStorage.getItem('@ESP:controls'));
+                    const control = controls.find(control => control.pin === pin);
+
+                    control.active = input.checked;
+
+                    localStorage.setItem('@ESP:controls', JSON.stringify(controls));
+
+                    sendControl(pin, data => {
+                        if (data) {
+                            listControls();
+                        }
+                        else {
+                            alert('Falha ao atualizar controle.');
+                        }
+                    });
+                });
+            });
     }
 
     function events() {

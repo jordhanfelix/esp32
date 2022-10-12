@@ -25,7 +25,7 @@ const WifiManager = (() => {
         const form = Object.fromEntries(formData);
         const queryString = new URLSearchParams(formData);
 
-        fetch(`${ROUTES.SAVE_CONFIG}?${queryString.toString()}`, { method: 'POST' })
+        fetch(`${ROUTES.SAVE_NETWORK}?${queryString.toString()}`, { method: 'POST' })
             .then(res => res.json())
             .then(data => {
                 if (data) {

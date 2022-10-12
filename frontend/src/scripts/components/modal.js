@@ -4,7 +4,9 @@ import '../../styles/components/modal.scss';
 export const Modal = (() => {
     let modal, form;
 
-    function insertModal() {
+    function insertControlModal() {
+        const controls = JSON.parse(localStorage.getItem('@ESP:controls'));
+
         document.body.insertAdjacentHTML('beforeend', /*html*/`
             <div id="modal" style="display: none;">
                 <div class="overlay">
@@ -19,7 +21,16 @@ export const Modal = (() => {
                                 Pino
                                 <select name="pin" required>
                                     <option value="" selected disabled>Selecione...</option>
-                                    ${[...Array(15)].map((opt, i) => `<option title="${i}" value="${i < 10 ? '0' + i : i}">Pino ${i < 10 ? '0' + i : i}</option>`).join('')}
+                                    ${[...Array(15)].map((opt, i) => {
+                                        const pin = (i < 10 ? '0' : '') + i;
+                                        const control = controls.find(f => f.pin === pin);
+
+                                        return `
+                                            <option value="${pin}" style="${control && 'color:blue'}">
+                                                Pino ${pin} ${control ? ' - ' + control?.name : ''}
+                                            </option>
+                                        `;
+                                    }).join('')}
                                 </select>
                             </label>
 
@@ -86,7 +97,7 @@ export const Modal = (() => {
     }
 
     function init() {
-        insertModal();
+        insertControlModal();
         events();
     }
 
