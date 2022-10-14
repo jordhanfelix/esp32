@@ -16,7 +16,7 @@ const Controls = (() => {
 
     function saveControl(form) {
         const {
-            name, pin, active,
+            name, pin, enabled,
             timeIni1, timeEnd1,
             timeIni2, timeEnd2,
             timeIni3, timeEnd3,
@@ -27,7 +27,7 @@ const Controls = (() => {
         const data = {
             name,
             pin,
-            active: active !== 'on' ? false : true,
+            enabled: enabled !== 'on' ? false : true,
             times: [
                 [timeIni1, timeEnd1],
                 [timeIni2, timeEnd2],
@@ -55,7 +55,7 @@ const Controls = (() => {
     function sendControl(pin, callback) {
         const controls = JSON.parse(localStorage.getItem('@ESP:controls'));
         const control = controls.find(f => f.pin === pin);
-        const link = `${ROUTES.SAVE_PIN}-${pin}-${control.active ? 'on' : 'off'}?${generateQueryString(control)}`;
+        const link = `${ROUTES.SAVE_PIN}-${pin}-${control.enabled ? 'on' : 'off'}?${generateQueryString(control)}`;
 
         fetch(link, { method: 'POST' })
             .then(res => res.json())
@@ -66,11 +66,11 @@ const Controls = (() => {
             });
     }
 
-    function generateQueryString({ name, pin, active, times }) {
+    function generateQueryString({ name, pin, enabled, times }) {
         const queryString = new URLSearchParams({
             name: name,
             pin: pin,
-            active: active ? 'on' : 'off',
+            enabled: enabled ? 'on' : 'off',
             timelist: times
                 .reduce((acc, cur) => acc += '_' + cur.join(''), '')
                 .replace(/:/g, '')
@@ -88,7 +88,7 @@ const Controls = (() => {
 
         controls
             .sort((a, b) => (a.pin > b.pin) ? 1 : -1)
-            .forEach(({ name, pin, active, times }) => {
+            .forEach(({ name, pin, enabled, times }) => {
                 container.insertAdjacentHTML('beforeend', /*html*/`
                 <div class="control config">
                     <button class="control-menu" data-pin="${pin}">
@@ -111,7 +111,7 @@ const Controls = (() => {
 
                             <label class="switch small">
                                 <span class="label">Habilitado</span>
-                                <input name="active" id="switch-pin${pin}" type="checkbox" data-pin="${pin}">
+                                <input name="enabled" id="switch-pin${pin}" type="checkbox" data-pin="${pin}">
                                 <span class="slider"></span>
                             </label>
                         </div>
@@ -123,7 +123,7 @@ const Controls = (() => {
                 </div>
             `);
 
-                document.querySelector(`#switch-pin${pin}`).checked = active;
+                document.querySelector(`#switch-pin${pin}`).checked = enabled;
             });
 
         addSwitchListener();
@@ -136,11 +136,11 @@ const Controls = (() => {
 
             if (control) {
                 const { form } = document.forms;
-                const { name, pin, active } = form;
+                const { name, pin, enabled } = form;
 
                 name.value = control.name;
                 pin.value = control.pin;
-                active.checked = control.active;
+                enabled.checked = control.enabled;
                 loadTimes(control.times);
             }
         }
@@ -196,7 +196,7 @@ const Controls = (() => {
                     const controls = JSON.parse(localStorage.getItem('@ESP:controls'));
                     const control = controls.find(control => control.pin === pin);
 
-                    control.active = input.checked;
+                    control.enabled = input.checked;
 
                     localStorage.setItem('@ESP:controls', JSON.stringify(controls));
 

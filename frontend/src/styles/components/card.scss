@@ -63,12 +63,13 @@
             background-color: #ccc;
         }
 
-        &.config > .control-content {
-            min-height: 72px;
+        &:not(.config) .switch {
+            margin-top: 1.4rem;
         }
 
         .control-content {
             display: flex;
+            min-height: 72px;
 
             .left {
                 flex: 1;

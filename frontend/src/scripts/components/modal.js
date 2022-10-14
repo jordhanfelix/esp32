@@ -41,7 +41,7 @@ export const Modal = (() => {
 
                             <label class="switch small">
                                 <span class="label">Habilitado</span>
-                                <input name="active" type="checkbox" checked>
+                                <input name="enabled" type="checkbox" checked>
                                 <span class="slider"></span>
                             </label>
 
