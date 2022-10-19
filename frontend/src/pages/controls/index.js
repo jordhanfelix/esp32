@@ -1,8 +1,8 @@
-import '../styles/controls.scss';
-import { Menu } from './components/menu';
-import { Modal } from './components/modal';
-import { sendControl } from './utils';
-import { startServer } from './server';
+import { Menu } from '../../components/menu';
+import { Modal } from '../../components/modal';
+import { sendControl } from '../../utils';
+import { startServer } from '../../utils/server';
+import './index.scss';
 
 
 startServer();

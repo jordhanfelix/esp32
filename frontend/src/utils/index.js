@@ -1,10 +1,10 @@
-import { ROUTES } from './routes';
+import { ROUTES } from '../pages/routes';
 
 
 export function sendControl(pin, callback) {
     const controls = JSON.parse(localStorage.getItem('@ESP:controls'));
     const control = controls.find(f => f.pin === pin);
-    const link = `${ROUTES.SAVE_PIN}-${pin}-${control.enabled ? 'on' : 'off'}?${generateQueryString(control)}`;
+    const link = `${ROUTES.SAVE_PIN}-${pin}-${control.active ? 'on' : 'off'}?${generateQueryString(control)}`;
 
     fetch(link, { method: 'POST' })
         .then(res => res.json())

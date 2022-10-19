@@ -1,4 +1,4 @@
-import '../../styles/components/modal.scss';
+import './modal.scss';
 
 
 export const Modal = (() => {

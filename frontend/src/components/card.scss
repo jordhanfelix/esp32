@@ -84,8 +84,28 @@
             }
 
             .control-times {
-                li:nth-child(even) {
-                    color: var(--color-secondary);
+                li {
+                    position: relative;
+
+                    &:nth-child(even) {
+                        color: var(--color-secondary);
+                    }
+
+                    &.active {
+                        font-weight: 700;
+
+                        &::before {
+                            content: "";
+                            position: absolute;
+                            top: 4px;
+                            left: -36px;
+                            border: solid var(--color-secondary);
+                            border-width: 0 2px 2px 0;
+                            display: inline-block;
+                            padding: 3px;
+                            transform: rotate(-45deg);
+                        }
+                    }
                 }
             }
         }
