@@ -31,7 +31,7 @@ const WifiManager = (() => {
                 if (data) {
                     localStorage.setItem('@ESP:network', JSON.stringify(form));
 
-                    alert('Salvo!')
+                    alert('Configurações salvas!')
 
                     if (!localStorage.getItem('@ESP:initialized')) {
                         localStorage.setItem('@ESP:initialized', true);
