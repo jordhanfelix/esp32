@@ -1,7 +1,7 @@
-import '../styles/network.scss';
-import { Menu } from './components/menu';
-import { ROUTES } from './routes';
-import { startServer } from './server';
+import { Menu } from '../../components/menu';
+import { ROUTES } from '../routes';
+import { startServer } from '../../utils/server';
+import './index.scss';
 
 
 startServer();
@@ -31,7 +31,7 @@ const WifiManager = (() => {
                 if (data) {
                     localStorage.setItem('@ESP:network', JSON.stringify(form));
 
-                    alert('Salvo!')
+                    alert('Configurações salvas!')
 
                     if (!localStorage.getItem('@ESP:initialized')) {
                         localStorage.setItem('@ESP:initialized', true);

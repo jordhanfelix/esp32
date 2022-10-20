@@ -1,5 +1,5 @@
 import { createServer } from "miragejs";
-import { ROUTES } from './routes';
+import { ROUTES } from '../pages/routes';
 
 
 export function startServer() {
