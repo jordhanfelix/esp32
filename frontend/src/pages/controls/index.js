@@ -64,7 +64,7 @@ const Controls = (() => {
             .forEach(({ name, pin, enabled, times }) => {
                 container.insertAdjacentHTML('beforeend', /*html*/`
                 <div class="control config">
-                    <button class="control-menu" data-pin="${pin}">
+                    <button class="control-menu" data-pin="${pin}" aria-label="menu do controle">
                         <svg width="5" height="17" viewBox="0 0 5 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M2.5 9.375C2.98325 9.375 3.375 8.98325 3.375 8.5C3.375 8.01675 2.98325 7.625 2.5 7.625C2.01675 7.625 1.625 8.01675 1.625 8.5C1.625 8.98325 2.01675 9.375 2.5 9.375Z" stroke="#626262" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             <path d="M2.5 3.25C2.98325 3.25 3.375 2.85825 3.375 2.375C3.375 1.89175 2.98325 1.5 2.5 1.5C2.01675 1.5 1.625 1.89175 1.625 2.375C1.625 2.85825 2.01675 3.25 2.5 3.25Z" stroke="#626262" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>

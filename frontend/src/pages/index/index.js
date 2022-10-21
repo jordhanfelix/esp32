@@ -30,7 +30,7 @@ const Index = (() => {
 
                             <div class="control-content">
                                 <div class="left">
-                                    <label class="switch">
+                                    <label class="switch" aria-label="ativa/desativa controle">
                                         <input name="active" id="switch-pin${pin}" type="checkbox" data-pin="${pin}">
                                         <span class="slider"></span>
                                     </label>
@@ -53,7 +53,7 @@ const Index = (() => {
         else {
             container.innerHTML = /*html*/`
                 <div class="empty-container">
-                    <h3>Nenhum controle disponível!</h3>
+                    <h2>Nenhum controle disponível!</h2>
                     <a href="/controls.html" class="button secondary">cadastrar</a>
                 </div>
             `;
