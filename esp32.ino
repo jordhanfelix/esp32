@@ -280,6 +280,76 @@ void handleNotFound()
   server.send(404, "text/plain", "Not Found");
 }
 
+void handleConfigRequest(AsyncWebServerRequest *request)
+{
+  if (request->hasParam("ssid", true)) {
+    ssid = request->arg("ssid");
+    writeFile(SPIFFS, ssidPath, ssid.c_str());
+  }
+
+  if (request->hasParam("pass", true)) {
+    pass = request->arg("pass");
+    writeFile(SPIFFS, passPath, pass.c_str());
+  }
+  else if (request->hasParam("password", true)) {
+    pass = request->arg("password");
+    writeFile(SPIFFS, passPath, pass.c_str());
+  }
+
+  if (request->hasParam("ip", true)) {
+    ip = request->arg("ip");
+    writeFile(SPIFFS, ipPath, ip.c_str());
+  }
+
+  if (request->hasParam("gateway", true)) {
+    gateway = request->arg("gateway");
+    writeFile(SPIFFS, gatewayPath, gateway.c_str());
+  }
+
+  request->send(200, "application/json", "{\"ok\":true,\"message\":\"Configuração salva.\"}");
+}
+
+void handleControlRequest(AsyncWebServerRequest *request)
+{
+  String pinValue = "";
+  String actionValue = "";
+
+  if (request->pathArgs() >= 2) {
+    pinValue = request->pathArg(0);
+    actionValue = request->pathArg(1);
+  }
+
+  if (request->hasParam("pin", true)) {
+    pinValue = request->arg("pin");
+  }
+
+  if (request->hasParam("action", true)) {
+    actionValue = request->arg("action");
+  }
+
+  if (request->hasParam("enabled", true) && actionValue == "") {
+    actionValue = request->arg("enabled");
+  }
+
+  if (pinValue == "" || actionValue == "") {
+    request->send(400, "application/json", "{\"ok\":false,\"message\":\"Pin e ação são obrigatórios.\"}");
+    return;
+  }
+
+  int pin = pinValue.toInt();
+  if (pin < 1 || pin > 16) {
+    request->send(400, "application/json", "{\"ok\":false,\"message\":\"Pin fora do intervalo permitido.\"}");
+    return;
+  }
+
+  int index = pin - 1;
+  int status = actionValue.equalsIgnoreCase("on") ? HIGH : LOW;
+  digitalWriteMCP(index, status);
+
+  request->send(200, "application/json",
+                "{\"ok\":true,\"pin\":" + String(pin) + ",\"action\":\"" + actionValue + "\"}");
+}
+
 // Executada a ação junto ao valor (número do relê)
 void execute(String action, String value)
 {
@@ -438,6 +508,13 @@ void setup() {
       request->send(SPIFFS, "/index.html", "text/html", false, processor);
     });
     server.serveStatic("/", SPIFFS, "/");
+    server.on("/config", HTTP_POST, handleConfigRequest);
+    server.on("/control", HTTP_POST, handleControlRequest);
+    server.on("/control/:pin/:action", HTTP_POST, handleControlRequest);
+    server.on("/status", HTTP_GET, [](AsyncWebServerRequest * request) {
+      String statusPayload = "{\"ok\":true,\"temperature\":" + String(temperature) + ",\"humidity\":" + String(humidity) + ",\"relayCount\":16}";
+      request->send(200, "application/json", statusPayload);
+    });
 
     // Route to set GPIO state to HIGH
     server.on("/on", HTTP_GET, [](AsyncWebServerRequest * request) {
@@ -468,48 +545,33 @@ void setup() {
     });
 
     server.serveStatic("/", SPIFFS, "/");
+    server.on("/config", HTTP_POST, handleConfigRequest);
+    server.on("/control", HTTP_POST, handleControlRequest);
+    server.on("/control/:pin/:action", HTTP_POST, handleControlRequest);
 
     server.on("/", HTTP_POST, [](AsyncWebServerRequest * request) {
-      int params = request->params();
-      for (int i = 0; i < params; i++) {
-        AsyncWebParameter* p = request->getParam(i);
-        if (p->isPost()) {
-          // HTTP POST ssid value
-          if (p->name() == PARAM_INPUT_1) {
-            ssid = p->value().c_str();
-            Serial.print("SSID set to: ");
-            Serial.println(ssid);
-            // Write file to save value
-            writeFile(SPIFFS, ssidPath, ssid.c_str());
-          }
-          // HTTP POST pass value
-          if (p->name() == PARAM_INPUT_2) {
-            pass = p->value().c_str();
-            Serial.print("Password set to: ");
-            Serial.println(pass);
-            // Write file to save value
-            writeFile(SPIFFS, passPath, pass.c_str());
-          }
-          // HTTP POST ip value
-          if (p->name() == PARAM_INPUT_3) {
-            ip = p->value().c_str();
-            Serial.print("IP Address set to: ");
-            Serial.println(ip);
-            // Write file to save value
-            writeFile(SPIFFS, ipPath, ip.c_str());
-          }
-          // HTTP POST gateway value
-          if (p->name() == PARAM_INPUT_4) {
-            gateway = p->value().c_str();
-            Serial.print("Gateway set to: ");
-            Serial.println(gateway);
-            // Write file to save value
-            writeFile(SPIFFS, gatewayPath, gateway.c_str());
-          }
-          //Serial.printf("POST[%s]: %s\n", p->name().c_str(), p->value().c_str());
-        }
+      if (request->hasParam("ssid", true)) {
+        ssid = request->arg("ssid");
+        writeFile(SPIFFS, ssidPath, ssid.c_str());
       }
-      request->send(200, "text/plain", "Salvo. reiniciando ESP, conecte-se ao IP: " + ip);
+      if (request->hasParam("pass", true)) {
+        pass = request->arg("pass");
+        writeFile(SPIFFS, passPath, pass.c_str());
+      }
+      else if (request->hasParam("password", true)) {
+        pass = request->arg("password");
+        writeFile(SPIFFS, passPath, pass.c_str());
+      }
+      if (request->hasParam("ip", true)) {
+        ip = request->arg("ip");
+        writeFile(SPIFFS, ipPath, ip.c_str());
+      }
+      if (request->hasParam("gateway", true)) {
+        gateway = request->arg("gateway");
+        writeFile(SPIFFS, gatewayPath, gateway.c_str());
+      }
+
+      request->send(200, "application/json", "{\"ok\":true,\"message\":\"Configuração salva. Reiniciando...\"}");
       delay(3000);
       ESP.restart();
     });//Fim função de configuração de rede via HTML

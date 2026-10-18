@@ -1,17 +1,65 @@
 import { ROUTES } from '../pages/routes';
 
+export function requestJson(url, options = {}) {
+    const requestOptions = {
+        ...options,
+        headers: {
+            Accept: 'application/json',
+            ...(options.headers || {})
+        }
+    };
+
+    return fetch(url, requestOptions)
+        .then(async res => {
+            const rawText = await res.text();
+
+            if (!rawText) {
+                return { ok: res.ok };
+            }
+
+            try {
+                return JSON.parse(rawText);
+            }
+            catch (error) {
+                return { ok: res.ok, raw: rawText };
+            }
+        });
+}
 
 export function sendControl(pin, callback) {
-    const controls = JSON.parse(localStorage.getItem('@ESP:controls'));
+    const controls = JSON.parse(localStorage.getItem('@ESP:controls') || '[]');
     const control = controls.find(f => f.pin === pin);
-    const link = `${ROUTES.SAVE_PIN}-${pin}-${control.active ? 'on' : 'off'}?${generateQueryString(control)}`;
 
-    fetch(link, { method: 'POST' })
-        .then(res => res.json())
-        .then(callback)
+    if (!control) {
+        callback(null);
+        return;
+    }
+
+    const action = control.enabled ? 'on' : 'off';
+    const link = `${ROUTES.SAVE_PIN}/${pin}/${action}`;
+    const body = new URLSearchParams({
+        name: control.name || '',
+        pin: String(pin),
+        action,
+        enabled: action,
+        timelist: (control.times || [])
+            .reduce((acc, cur) => `${acc}_${cur.join('')}`, '')
+            .replace(/:/g, '')
+            .slice(1)
+    }).toString();
+
+    requestJson(link, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+        },
+        body
+    })
+        .then(data => callback(data))
         .catch(err => {
             alert('Falha ao salvar controle.');
             console.error(err);
+            callback(null);
         });
 }
 

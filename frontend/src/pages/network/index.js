@@ -1,5 +1,6 @@
 import { Menu } from '../../components/menu';
 import { ROUTES } from '../routes';
+import { requestJson } from '../../utils';
 import { startServer } from '../../utils/server';
 import './index.scss';
 
@@ -23,21 +24,44 @@ const WifiManager = (() => {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
         const form = Object.fromEntries(formData);
-        const queryString = new URLSearchParams(formData);
+        const queryString = new URLSearchParams({
+            ssid: form.ssid,
+            pass: form.password,
+            ip: form.ip,
+            gateway: form.gateway
+        }).toString();
 
-        fetch(`${ROUTES.SAVE_NETWORK}?${queryString.toString()}`, { method: 'POST' })
-            .then(res => res.json())
+        localStorage.setItem('@ESP:baseUrl', `http://${form.ip}`);
+
+        requestJson(ROUTES.SAVE_NETWORK, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+            },
+            body: queryString
+        })
             .then(data => {
-                if (data) {
-                    localStorage.setItem('@ESP:network', JSON.stringify(form));
+                if (data && data.ok !== false) {
+                    localStorage.setItem('@ESP:network', JSON.stringify({
+                        ssid: form.ssid,
+                        password: form.password,
+                        ip: form.ip,
+                        gateway: form.gateway
+                    }));
 
-                    alert('Configurações salvas!')
+                    alert('Configurações salvas!');
 
                     if (!localStorage.getItem('@ESP:initialized')) {
                         localStorage.setItem('@ESP:initialized', true);
                         location.assign(ROUTES.HOME);
                     }
                 }
+                else {
+                    alert('Falha ao salvar as configurações da rede.');
+                }
+            })
+            .catch(() => {
+                alert('Falha ao salvar as configurações da rede.');
             });
     }
 
